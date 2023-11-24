@@ -10,7 +10,17 @@ const server =  Bun.serve({
         if(url.pathname === '/about'){
             return new Response('About me!') 
         }
-        return new Response('404')
+        if(url.pathname === '/greet'){
+            return new Response(Bun.file('./dummy.txt'))
+        }
+        throw new Error('Could not find the page')
+    },
+    error(error){
+        return new Response(`<pre>${error.stack}</pre>`, {
+            headers: {
+                'Content-Type': 'text/html'
+            }
+        })
     }
 })
 
